@@ -6,11 +6,15 @@ $sql = "SELECT * FROM weather_station ORDER BY timestamp DESC LIMIT 1";
 $result = $conn->query($sql);
 $row = $result->fetch_assoc() ;
 
+$sql_env = "SELECT * FROM env_elements ORDER BY id DESC LIMIT 1";
+$result_env = $conn->query($sql_env);
+$row_env = $result_env->fetch_assoc() ;
+
 @mysqli_select_db($dbname);
 
   @mysqli_set_charset($conn, "utf8");
   $query='SELECT * FROM weather_station ';
-
+  $query_env='SELECT * FROM env_elements ';
 $conn->close();
 ?>
 
@@ -41,11 +45,11 @@ $conn->close();
         <div id="sun" class="sun"></div>
     </div>
    <script>
-         var hum = <?php echo $row["hum"]; ?> ;
-         var rain = <?php echo $row["rain"]; ?> ;
-         var presure = <?php echo $row["presure"]; ?> ;
-         var dusting = <?php echo $row["dusting"]; ?> ;
-         var sun = <?php echo $row["sun"]; ?> ;
+         var hum = <?php echo $row_env["hum"]; ?> ;
+         var rain = <?php echo $row_env["rain"]; ?> ;
+         var presure = <?php echo $row_env["presure"]; ?> ;
+         var dusting = <?php echo $row_env["dusting"]; ?> ;
+         var sun = <?php echo $row_env["sun"]; ?> ;
          var temperature = <?php echo $row["temperature"]; ?> ;
          var temperature_f = <?php echo $row["temperature_f"]; ?> ;
          var temp_index_c = <?php echo $row["temp_index_c"]; ?> ;
