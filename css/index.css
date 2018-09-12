@@ -1,0 +1,206 @@
+  body {
+  background-color: #bebebe;
+  font: 400 1em/1.38 Montserrat;
+  color: #ffffff;
+}
+
+.info_bg p {
+  margin-bottom: -.2em;
+}
+
+.weathericon {
+  display: block;
+  position: absolute;
+  top: -5px;
+  left: 1.226993865%;
+  z-index: 5;
+  width: 160px;
+  height: auto;
+  overflow: hidden;
+}
+
+.statistics {
+  position: absolute;
+  bottom: 30px;
+  right: 35%;
+  width: 550px;
+  font-size: 1.25em;
+  text-align: center;
+}
+
+.container {
+  position: relative;
+  top: 75px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  z-index: 8;
+  width: 800px;
+  height: 400px;
+  margin: auto;
+  border-radius: 20px;
+  background-color: rgb(0, 1, 2);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  opacity: 0.7;
+}
+
+.info_bg {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  z-index: 4;
+  width: 100%;
+  height: 20px;
+  border-radius: 10px;
+  background-color: rgb(0, 1, 2);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  opacity: 0.7;
+}
+
+.temperature {
+  position: absolute;
+  top: 38px;
+  left: 72px;
+  z-index: 7;
+  width: 109px;
+  min-height: 28px;
+  font-size: 4.25em;
+  font-weight: 700;
+  line-height: 1.38;
+  color: #FFF8DC;
+}
+
+.temperature_f {
+  position: absolute;
+  top: 38px;
+  left: 580px;
+  z-index: 7;
+  width: 109px;
+  min-height: 28px;
+  font-size: 4.25em;
+  font-weight: 700;
+  line-height: 1.38;
+  color: #FFF8DC;
+}
+
+.rainicon {
+    position: absolute;
+  bottom: 70px;
+  left: 1.3173312883%;
+  z-index: 1;
+  width: 25px;
+  height: auto;
+  overflow: hidden;
+  background-color: #bebebe;
+  border-radius: 15px;
+}
+
+.rainmm {
+  position: absolute;
+  bottom: 63px;
+  left: 5.5%;
+  width: 50px;
+  min-height: 29px;
+  font-size: 1em;
+  line-height: 1.38;
+  text-align: center;
+  color: #ffffff;
+}
+.humidity {
+  position: absolute;
+  bottom: 62px;
+  left: 22%;
+  z-index: 2;
+  width: 46px;
+  min-height: 29px;
+  font-size: 1em;
+  line-height: 1.38;
+  text-align:  justify;
+  color: #ffffff;
+}
+
+.temp_index_c {
+  position: absolute;
+  bottom: 160px;
+  left: 15.5%;
+  width: 550px;
+  min-height: 29px;
+  font-size: 1.5em;
+  line-height: 1.38;
+  text-align: center;
+  color: #FFF8DC;
+}
+
+.droplet {
+  display: block;
+  position: absolute;
+  top: 70px;
+  left: 17%;
+  z-index: 1;
+  width: 50px;
+  height: auto;
+  overflow: hidden;
+}
+
+.pressure {
+  position: absolute;
+  bottom: 28px;
+  left: 35.5%;
+  width: 50px;
+  min-height: 29px;
+  font-size: 1em;
+  line-height: 1.38;
+  text-align:  justify;
+  color: #ffffff;
+}
+
+.pm {
+  position: absolute;
+  bottom: 31px;
+  left: 57%;
+  width: 50px;
+  min-height: 29px;
+  font-size: 1em;
+  line-height: 1.38;
+  text-align:  justify;
+  color: #ffffff;
+}
+.sun {
+  position: absolute;
+  bottom: 32px;
+  left: 80%;
+  width: 50px;
+  min-height: 29px;
+  font-size: 1em;
+  line-height: 1.38;
+  text-align:  justify;
+  color: #ffffff;
+}
+.sunicon {
+  position: absolute;
+  bottom: 70px;
+  left: 75.1173312883%;
+  z-index: 1;
+  width: 25px;
+  height: auto;
+  overflow: hidden;
+  background-color: #bebebe;
+  border-radius: 15px;
+}
+
+.sunicon:hover {
+  background-color: white;
+}
+
+.rainicon:hover {
+  background-color: white;
+}
+
+table, th, td {
+    align: center;
+    border: 1.5px solid gray;
+    width:70%;
+    border-collapse: collapse;
+    text-align: center;
+
+  }
