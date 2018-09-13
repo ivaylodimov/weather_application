@@ -1,8 +1,8 @@
 <?php
-$servername = 'sql2.freemysqlhosting.net';
-$username = 'sql2256268';
-$password = 'dB7!qW5%';
-$dbname = 'sql2256268';
+$servername = ''; //адрес на MySQL сървър
+$username = ''; //потребителско име
+$password = 'dB7!qW5%'; // парола
+$dbname = 'sql2256268'; //име на БД
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
