@@ -1,17 +1,18 @@
-#include <DHT.h>
-#include <MySQL_Connection.h>
-#include <MySQL_Cursor.h>
-#include <ESP8266WiFi.h>
-#include <WiFiClient.h>
+#include <DHT.h> //Включване библиотеката за сензорът
+#include <MySQL_Connection.h> //Включване библиотеката за връзка с MySQL
+#include <MySQL_Cursor.h> //Включване библиотеката за работа с MySQL
+#include <ESP8266WiFi.h> //Включване библиотеката за работа с WiFi
+#include <WiFiClient.h> //Включване библиотеката за WiFi клиент
 
-#define DHTTYPE DHT11
-const int DHTPin = 0; 
+#define DHTTYPE DHT11 //Дефиниране на тип данни DHTTYPE
+const int DHTPin = 0;  //Инициализиране на пин на който ще бъде свързан сензорът
 DHT dht(DHTPin, DHTTYPE);
 
-// Temporary variables
+// Временни променливи
 static char celsiusTemp[7];
 static char fahrenheitTemp[7];
 static char humidityTemp[7];
+
 
 //Въведете нужните име на мрежа и парола
 char ssid[] = "";                 // Име на WiFi мрежа
@@ -19,14 +20,14 @@ char pass[] = "";                 // Парола на мрежата
 byte mac[6];
 
 WiFiServer server(80);
-IPAddress ip(192, 168, 0, 106); // Предпочитан IP адрес
+IPAddress ip(192, 168, 0, 106); // Предпочитан IP адрес за ESP8266
 IPAddress gateway(192, 168, 0, 1); //IP адрес на шлюзът
 IPAddress subnet(255, 255, 255, 0); // Маска на мрежата
 
 WiFiClient client;
-MySQL_Connection conn((Client *)&client);
+MySQL_Connection conn((Client *)&client);//Осъшествяване на връка с MySQL
 
-char INSERT_SQL[] = "INSERT INTO weather_db.weather_station ( temperature, hum, rain, presure, dusting, sun) VALUES ( %0.0f, %0.0f, 7, 82, 112, 1500)";
+char INSERT_SQL[] = "INSERT INTO weather_db.weather_station ( temperature, temperature_f, hum, temp_index_c, temp_index_f, rain, presure, dusting, sun) VALUES ( %0.0f, %0.0f, %0.0f, %0.0f , %0.0f)"; //SQL заявка към базата данни
 char query[128];
 
 //Въведете вашите нужните данни за вашият сървър база данни
@@ -35,13 +36,13 @@ char user[] = "";           // MySQL user
 char password[] = "";       // MySQL password
 
 void setup() {
- dht.begin();
-  Serial.begin(115200);
+ dht.begin(); //Стартиране на връзка със сензорът
+  Serial.begin(115200); //Стартиране на връзка със серийният монитор
 
-  pinMode(DHTPin, INPUT);
-  //pinMode(sensorPin8, INPUT);
-
-  Serial.println("Initialising connection");
+  pinMode(DHTPin, INPUT); 
+  
+// Изписване на съобщения в серийният монитор
+  Serial.println("Initialising connection"); 
   Serial.print(F("Setting static ip to : "));
   Serial.println(ip);
 
@@ -49,17 +50,20 @@ void setup() {
   Serial.println("");
   Serial.print("Connecting to ");
   Serial.println(ssid);
-  WiFi.config(ip, gateway, subnet); 
-  WiFi.begin(ssid, pass);
+  WiFi.config(ip, gateway, subnet); // Конфигуриране на връзката към WiFi
+  WiFi.begin(ssid, pass);  //Стартиране на връзка с WiFi
 
+// Принтиране на символ „ . “ по време на финалното свързване с WiFi
   while (WiFi.status() != WL_CONNECTED) {
     delay(200);
     Serial.print(".");
   }
 
+// Принтиране в серийният монитор статусът на връзката
   Serial.println("");
   Serial.println("WiFi Connected");
 
+// Принтиране в серийният монитор МАС адресът на ESP8266
   WiFi.macAddress(mac);
   Serial.print("MAC: ");
   Serial.print(mac[5],HEX);
@@ -78,6 +82,7 @@ void setup() {
   Serial.print(WiFi.localIP());
   Serial.println("");
 
+//Изписване на съобщение при стартиране на връзка с MySQL
   Serial.println("Connecting to database");
 
   while (conn.connect(server_addr, 3306, user, password) != true) {
@@ -86,30 +91,31 @@ void setup() {
   }
 
   Serial.println("");
-  Serial.println("Connected to SQL Server!");  
+  Serial.println("Connected to MySQL Server!");  //Изписване в серийния монитор при успешна връзка с MySQL
  
 }
 
 void loop() {
 
-  delay(700000);
+  delay(1800000); //Изчакване от 1800000 мс / 30 мин
   float h = dht.readHumidity();
   // Четене на температурата по Целзий (стойност по подразбиране)
   float t = dht.readTemperature();
   // Четене на температурата по Фаренхайт (ако isFahrenheit = true)
   float f = dht.readTemperature(true);
 
-  // Check if any reads failed and exit early (to try again).
+  // Проверка за наличие на стойностите узмерени от сензорът (ако не са налични, опитва отново).
   if (isnan(h) || isnan(t) || isnan(f)) {
     Serial.println("Failed to read from DHT sensor!");
     return;
   }
 
-  // Compute heat index in Fahrenheit (the default)
+  // Изчисляване на топлинния индекс по Фаренхайт
   float hif = dht.computeHeatIndex(f, h);
-  // Compute heat index in Celsius (isFahreheit = false)
+  // Изчисляване на топлинния индекс по Целзий( ако isFahreheit = false)
   float hic = dht.computeHeatIndex(t, h, false);
 
+//Принтиране на измерените и изчислени стойноти в серийният монитор
   Serial.print("Humidity: ");
   Serial.print(h);
   Serial.print(" %\t");
@@ -126,15 +132,14 @@ void loop() {
 
             
 
-  sprintf(query, INSERT_SQL, t, h);
-  //sprintf(query, INSERT_SQL);
+  sprintf(query, INSERT_SQL, t, f, hic, hif, h); //принтиране на SQL заявката 
 
   Serial.println("Recording data.");
-  Serial.println(query);
+  Serial.println(query); принтиране на SQL заявката в серийния монитор
   
   MySQL_Cursor *cur_mem = new MySQL_Cursor(&conn);
   
-  cur_mem->execute(query);
+  cur_mem->execute(query); // Изпълняване на заявката към MySQL 
 
-  delete cur_mem;
+  delete cur_mem; // изтриване на променливата
 }
